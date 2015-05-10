@@ -64,12 +64,8 @@ public class RunCwebp implements Runnable{
 			chackNo += 1;
 		}
 		
-		
-		//저장 경로를 설정 했는지 체크
 		if(!savePath.exists()){
-			System.out.println("run : 저장 위치를 선택해 주세요.");
-			JOptionPane.showMessageDialog(mainFrame,"저장 위치를 선택해 주세요.");
-			chackNo += 1;
+			savePath.mkdir();
 		}
 		
 		return chackNo;
@@ -165,7 +161,7 @@ public class RunCwebp implements Runnable{
 				System.out.println("error : "+errorChack);
 				System.out.println("errorMessage : "+errorMsg);
 			}else{
-				message.setMessage("\n***************** <처리완료> *****************\n");
+				message.setMessage("\n***************** <fream 파일 생성완료> *****************\n");
 				Thread.sleep(10);				
 			}
 		} catch (Exception e) {
