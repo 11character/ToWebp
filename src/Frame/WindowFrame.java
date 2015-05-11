@@ -45,6 +45,8 @@ public class WindowFrame extends JFrame{
 	
 	private JButton upButton;
 	private JButton downButton;
+	private JLabel frameSpeedLabel;
+	private JTextField frameSpeed;
 	private JButton msgButton;
 	private JButton addButton;
 	private JButton delButton;
@@ -64,6 +66,8 @@ public class WindowFrame extends JFrame{
 		
 		upButton = new JButton("UP");
 		downButton = new JButton("DOWN");
+		frameSpeedLabel = new JLabel("속도", SwingConstants.CENTER);
+		frameSpeed = new JTextField();
 		msgButton = new JButton("메세지창");
 		addButton = new JButton("추가");
 		delButton = new JButton("삭제");
@@ -91,6 +95,8 @@ public class WindowFrame extends JFrame{
 		jListScroll.setSize(frameWidth-(x01*2),(frameHeight/8)*4);
 		upButton.setSize(buttonWidth, buttonHeight);
 		downButton.setSize(buttonWidth, buttonHeight);
+		frameSpeedLabel.setSize(buttonWidth/2,buttonHeight);
+		frameSpeed.setSize(buttonWidth,buttonHeight);
 		msgButton.setSize(buttonWidth, buttonHeight);
 		addButton.setSize(buttonWidth,buttonHeight);
 		delButton.setSize(buttonWidth,buttonHeight);
@@ -102,6 +108,8 @@ public class WindowFrame extends JFrame{
 		jListScroll.setLocation(x01, y01);
 		upButton.setLocation(x01, y02);
 		downButton.setLocation(x02, y02);
+		frameSpeedLabel.setLocation(x04-buttonWidth/2, y02);
+		frameSpeed.setLocation(x04, y02);
 		msgButton.setLocation(x04, y03);
 		addButton.setLocation(x01, y03);
 		delButton.setLocation(x02, y03);
@@ -127,6 +135,8 @@ public class WindowFrame extends JFrame{
 		add(jListScroll);
 		add(upButton);
 		add(downButton);
+		add(frameSpeed);
+		add(frameSpeedLabel);
 		add(msgButton);
 		add(addButton);
 		add(delButton);
@@ -138,12 +148,17 @@ public class WindowFrame extends JFrame{
 		setVisible(true);
 		
 		addButton.requestFocus();// 추가버튼에 포커스
+		frameSpeed.setText("60");//기본 속도 60
 		
 		System.out.println("JFrame(main) : on");
 	}
 	
 	/**
-	 * 대상경로가 저장되는 리스트창 객체를 반환한다.
+	 * 대상 파일경로가 표시되는 객체를 반환한다.
+	 * @Method Name  : getPathList
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 * @return
 	 */
 	public JList getPathList(){
 		return pathList;
@@ -151,9 +166,24 @@ public class WindowFrame extends JFrame{
 	
 	/**
 	 * 저장폴더 경로 객체를 반환한다.
+	 * @Method Name  : getSavePathField
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 * @return
 	 */
 	public JTextField getSavePathField(){
 		return savePathField;
+	}
+	
+	/**
+	 * 프레임 속도입력 객체를 반환한다.
+	 * @Method Name  : getFrameSpeed
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 * @return
+	 */
+	public JTextField getFrameSpeedField(){
+		return frameSpeed;
 	}
 	
 }

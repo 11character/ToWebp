@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import Frame.WindowFrame;
 /**
  * 이미지를 webp 포멧으로 변환
  * @FileName  : RunCwebp.java
@@ -20,7 +21,7 @@ import javax.swing.JTextField;
  * @author      : 이은표
  */
 public class RunWebpmux implements Runnable{
-	private JFrame mainFrame;						//메인창
+	private WindowFrame mainFrame;						//메인창
 	private RunMessageThread message;				
 	private Thread msgThread;						//메세지처리 쓰레드
 	
@@ -28,20 +29,22 @@ public class RunWebpmux implements Runnable{
 	private DefaultListModel pathListModel; 		//JList Model
 	private JTextField savePathField;				//저장경로가 들어가는 JTextField객체
 	
-	private String rootPath;							//실행위치
-	private File utilityPathFile;						//변환도구위치
-	private File savePathFile;							//프레임소스경로, 저장경로
+	private String rootPath;						//실행위치
+	private File utilityPathFile;					//변환도구위치
+	private File savePathFile;						//프레임소스경로, 저장경로
+	private JTextField frameSpeedField;					//프레임 속도
 	
 	public RunWebpmux(){		
 		mainFrame = RunMacThread.mainFrame;
-		pathList = RunMacThread.mainFrame.getPathList();
+		pathList = mainFrame.getPathList();
+		frameSpeedField = mainFrame.getFrameSpeedField();
+		savePathField = mainFrame.getSavePathField();
 		
 		pathListModel = (DefaultListModel) pathList.getModel();
 		
 		rootPath = RunMacThread.rootPath;
 		utilityPathFile = new File(rootPath+File.separator+"webp_utility"+File.separator+"webpmux");
-				
-		savePathField = RunMacThread.mainFrame.getSavePathField();
+		
 		savePathFile = new File(savePathField.getText());
 		
 		System.out.println("rootPath : "+rootPath);
@@ -88,9 +91,10 @@ public class RunWebpmux implements Runnable{
 			System.out.println("utilityPath : "+utilityPath);
 			
 			String sourceCmd = "";
+			String frameSpeed = frameSpeedField.getText();
 			for(String str : sourceList){
 				str = str.trim().replace(" ", "\\ ");
-				sourceCmd += " -frame "+str+" +55+0+0";
+				sourceCmd += " -frame "+str+" +"+frameSpeed+"+0+0";
 			}
 			
 			String cmd = utilityPath+" "+sourceCmd+" -loop 0 -o "+savePath;
