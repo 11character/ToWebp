@@ -23,11 +23,11 @@ public class RunCwebp implements Runnable{
 	
 	private JList pathList;							//JList 객체
 	private DefaultListModel pathListModel; 		//JList Model
-	private JTextField savePathField;				//저장경로가 들어가는 JTextField객체
+	private JTextField savePathFileField;				//저장경로가 들어가는 JTextField객체
 	
-	private File thisPath;							//실행위치
-	private File utilityPath;						//변환도구위치
-	private File savePath;							//저장경로
+	private String rootPath;							//실행위치
+	private File utilityPathFile;						//변환도구위치
+	private File savePathFile;							//저장경로
 	
 	public RunCwebp(){		
 		mainFrame = RunMacThread.mainFrame;
@@ -35,45 +35,21 @@ public class RunCwebp implements Runnable{
 		
 		pathListModel = (DefaultListModel) pathList.getModel();
 		
-		thisPath = RunMacThread.thisPath;
-		utilityPath = new File(thisPath+File.separator+"webp_utility"+File.separator+"cwebp");
+		rootPath = RunMacThread.rootPath;
+		utilityPathFile = new File(rootPath+File.separator+"webp_utility"+File.separator+"cwebp");
 				
-		savePathField = RunMacThread.mainFrame.getSavePathField();
-		savePath = new File(savePathField.getText());
+		savePathFileField = RunMacThread.mainFrame.getSavePathField();
+		savePathFile = new File(savePathFileField.getText());
 		
-		System.out.println("thisPath : "+thisPath);
-		System.out.println("utilityPath.exists() : "+utilityPath.exists());
-		System.out.println("utilityPath : "+utilityPath);
-		System.out.println("savePath.exists() : "+savePath.exists());
-		System.out.println("savePath : "+savePath);
-	}
-	
-	public int dirChack(){
-		int chackNo = 0;
-		String errorList = "";
-		
-		//대상목록 존재여부 체크
-		for(int i = 0; i < pathListModel.getSize(); i++){
-			File tempFile = new File((String) pathListModel.get(i));
-			
-			if(!tempFile.exists()){
-				errorList += "파일이름 : "+tempFile.getName()+"\n"+"해당경로 : "+tempFile.getParent()+"\n\n";
-			}
-		}
-		if(pathListModel.getSize() == 0 || errorList.trim().length() != 0){
-			System.out.println("run : 대상 파일이 존재하지 않습니다. \n"+errorList);
-			JOptionPane.showMessageDialog(mainFrame,"대상 파일이 존재하지 않습니다.\n"+errorList);
-			chackNo += 1;
-		}
-		
-		if(!savePath.exists()){
-			savePath.mkdir();
-		}
-		
-		return chackNo;
+		System.out.println("rootPath : "+rootPath);
+		System.out.println("utilityPathFile.exists() : "+utilityPathFile.exists());
+		System.out.println("utilityPathFile : "+utilityPathFile);
+		System.out.println("savePathFile.exists() : "+savePathFile.exists());
+		System.out.println("savePathFile : "+savePathFile);
 	}
 	
 	public void run() {
+		
 		int errorChack = 0;
 		String errorMsg = "";
 		
@@ -81,14 +57,33 @@ public class RunCwebp implements Runnable{
 		msgThread = new Thread(message,"messageThread");
 		msgThread.start();
 		
+		//실행 전 작업 디렉토리 정리
+		if(!savePathFile.exists()){
+			savePathFile.mkdir();
+		}else{
+			if(deleteDirectory(savePathFile)){
+				savePathFile.mkdir();				
+			}else{
+				System.out.println("RunCwebp : 실행 준비도중 오류발생.\nwebp 디렉토리를 비워야 합니다.");
+				JOptionPane.showMessageDialog(mainFrame,"실행 준비도중 오류발생.\nwebp 디렉토리를 비워야 합니다.","",JOptionPane.ERROR_MESSAGE);
+				message.threadStop();
+				return;
+			}
+		}
+		
 		//실행 전 필수요소 체크
-		if(dirChack() > 0){
+		String sourceChack = sourceChack();
+		if(sourceChack.length() > 0){
+			System.out.println("RunCwebp : "+sourceChack);
+			JOptionPane.showMessageDialog(mainFrame,sourceChack,"",JOptionPane.ERROR_MESSAGE);
 			message.threadStop();
 			return;
 		}
 		
 		//메세지창 보이기
 		RunMacThread.messageFrame.setVisible(true);
+		//메인화면 잠금
+		mainFrame.setEnabled(false);
 		
 		try {
 			for(int i = 0; i < pathListModel.getSize(); i++){
@@ -96,24 +91,24 @@ public class RunCwebp implements Runnable{
 				
 				String fileType = tempFile.getName().substring(tempFile.getName().lastIndexOf(".")+1);
 				String fileName = tempFile.getName().substring(0,tempFile.getName().lastIndexOf("."));
-				String freamNumber = getZeroString(pathListModel.getSize())+i;
+				String freamNumber = getAddZeroString(pathListModel.getSize(), i);
 								
-				String openfilePath = tempFile.getParent()+File.separator+fileName+"."+fileType;
-				String saveFilePath = savePath.getCanonicalPath()+File.separator+"fream"+freamNumber+".webp";
-				String utilityFilePath = utilityPath.getCanonicalPath();
+				String openPath = tempFile.getParent()+File.separator+fileName+"."+fileType;
+				String savePath = savePathFile.getCanonicalPath()+File.separator+"fream"+freamNumber+".webp";
+				String utilityPath = utilityPathFile.getCanonicalPath();
 				
 				//경로에 있는 디렉토리명에 공백이 있는 경우. 이를 무시하기위해 공백 앞에 \를 넣어준다.
-				openfilePath = openfilePath.trim().replace(" ", "\\ ");
-				saveFilePath = saveFilePath.trim().replace(" ", "\\ ");			
-				utilityFilePath = utilityFilePath.trim().replace(" ", "\\ ");
+				openPath = openPath.trim().replace(" ", "\\ ");
+				savePath = savePath.trim().replace(" ", "\\ ");			
+				utilityPath = utilityPath.trim().replace(" ", "\\ ");
 				
-				System.out.println("utilityPath : "+openfilePath);
-				System.out.println("saveFilePath : "+saveFilePath);
-				System.out.println("utilityFilePath : "+utilityFilePath);
+				System.out.println("openPath : "+openPath);
+				System.out.println("savePath : "+savePath);
+				System.out.println("utilityPath : "+utilityPath);
 				
 				try {
 					
-					String cmd = utilityFilePath+" "+openfilePath+" -o "+saveFilePath;
+					String cmd = utilityPath+" "+openPath+" -o "+savePath;
 					String msgCmd = "\n===================<실행명령>===================\n"+cmd+"\n==============================================\n";
 					System.out.println(msgCmd);
 					
@@ -136,7 +131,7 @@ public class RunCwebp implements Runnable{
 					p.destroy();
 					
 					
-					if(msg.indexOf("Error!") != -1){
+					if(msg.toLowerCase().indexOf("error") != -1){
 						errorChack++;
 						errorMsg += "\n"+msg;
 					};
@@ -163,31 +158,90 @@ public class RunCwebp implements Runnable{
 				System.out.println("error : "+errorChack);
 				System.out.println("errorMessage : "+errorMsg);
 			}else{
-				message.setMessage("\n***************** <fream 파일 생성완료> *****************\n");
-				Thread.sleep(10);				
+				message.setMessage("\n***************** <프레임 파일 생성완료> *****************\n");
+				Thread.sleep(10);
+				RunWebpmux rc = new RunWebpmux();
+				Thread rmThread = new Thread(rc);
+				rmThread.start();
+				rmThread.join();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		mainFrame.setEnabled(true);
 		System.out.println("run : end");
 		message.threadStop();
 	}
 	
 	/**
-	 * 입력한 사이즈의 자리수 만큼 0이 붙은 문자열을 반환한다.
-	 * @Method Name  : getZeroString
-	 * @date   : 2015. 5. 10.
+	 * 작업시 필요한 소스를 체크한다.
+	 * @Method Name  : sourceChack
+	 * @date   : 2015. 5. 11.
 	 * @author   : 이은표
-	 * @param size
 	 * @return
 	 */
-	private String getZeroString(int size){
-		String zeroStr = "";
+	public String sourceChack(){
+		String errorList = "";
+		String result = "";
+		//대상목록 존재여부 체크
+		for(int i = 0; i < pathListModel.getSize(); i++){
+			File tempFile = new File((String) pathListModel.get(i));
+			if(!tempFile.exists()){
+				errorList += "파일이름 : "+tempFile.getName()+"\n"+"해당경로 : "+tempFile.getParent()+"\n\n";
+			}
+		}
+		
+		if(pathListModel.getSize() == 0 || errorList.trim().length() != 0){
+			result = "대상 파일이 존재하지 않습니다.\n"+errorList;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 입력한 사이즈의 자리수 만큼 0이 붙은 문자열을 반환한다.
+	 * @Method Name  : getAddZeroString
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 * @param size
+	 * @param no
+	 * @return
+	 */
+	private String getAddZeroString(int size, int no){
 		String sizeStr = size+"";
-		for(int i=1; i < sizeStr.length(); i++){
+		String noStr = no+"";
+		String zeroStr = "";
+		
+		for(int i=0; i < sizeStr.length() - noStr.length(); i++){
 			zeroStr += "0";
 		}
-		return zeroStr;
+		
+		return zeroStr+noStr;
+	}
+	
+	/**
+	 * 디렉토리를 삭제하는 재귀함수
+	 * @Method Name  : deleteDirectory
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 * @param dir
+	 * @return
+	 */
+	private boolean deleteDirectory(File dir){
+		if(!dir.exists()){
+			return false;
+		}
+		
+		File[] files = dir.listFiles();
+		for(File file : files){
+			if(file.isDirectory()){
+				deleteDirectory(file);
+			}else{
+				file.delete();
+			}
+		}
+		
+		return dir.delete();
 	}
 }

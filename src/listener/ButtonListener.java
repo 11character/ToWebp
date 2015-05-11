@@ -32,7 +32,7 @@ public class ButtonListener implements ActionListener {
 		}else if(actionCmd.equals("delAll")){	//전체삭제
 			pathListControll.delAllPath();
 		}else if(actionCmd.equals("run")){		//변환시작
-			int status = JOptionPane.showConfirmDialog(RunMacThread.mainFrame,"webp 디렉토리에 파일일 있는경우\n기존 파일을 덮어 씌웁니다.","",JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+			int status = JOptionPane.showConfirmDialog(RunMacThread.mainFrame,"webp 디렉토리에 파일일 있는경우\n기존 파일을 전부 지웁니다.","",JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 			if(status == JOptionPane.OK_OPTION){
 				RunCwebp rc = new RunCwebp();
 				Thread rcThread = new Thread(rc);

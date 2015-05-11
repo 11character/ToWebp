@@ -11,8 +11,6 @@ public class MainStart {
 	
 	//기본값 설정 및 Thread 실행
 	public static void main(String[] args) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		String osType = System.getProperty("os.name");
-		
 		//***해당 실행파일의 인코딩 설정을 변경해주는 코드.
 		System.setProperty("file.encoding","UTF-8"); 
 		Field charset = Charset.class.getDeclaredField("defaultCharset"); 
@@ -23,7 +21,9 @@ public class MainStart {
 		String encoding = new java.io.OutputStreamWriter(System.out).getEncoding();
 	    System.out.println("Encoding : " + encoding);
 		
-	    System.out.println("OS : "+System.getProperty("os.name"));
+	    String osType = System.getProperty("os.name");
+	    System.out.println("OS : "+osType);
+	    
 		if(osType.indexOf("Mac") != -1){
 			RunMacThread rmt = new RunMacThread();
 			Thread macThread = new Thread(rmt,"macThread");
