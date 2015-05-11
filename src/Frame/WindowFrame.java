@@ -1,7 +1,4 @@
 package Frame;
-import handler.ButtonHandler;
-import handler.WindowHandler;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -14,7 +11,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import listener.ButtonListener;
+import listener.WListener;
+/**
+ * 윈도우 디자인 설정
+ * @FileName  : WindowFrame.java
+ * @Project     : ToWebp
+ * @Date         : 2015. 5. 11.
+ * @author      : 이은표
+ */
 public class WindowFrame extends JFrame{
+	private static final long serialVersionUID = 1L;
 	
 	private int frameWidth = 600;
 	private int frameHeight = 350;
@@ -28,13 +35,16 @@ public class WindowFrame extends JFrame{
 	private int x05 = frameWidth - (x01+buttonWidth);
 	
 	private int y01 = frameHeight/35;
-	private int y02 = (frameHeight/7)*4;
-	private int y03 = (frameHeight/7)*5;
+	private int y02 = (frameHeight/9)*5;
+	private int y03 = (frameHeight/9)*6;
+	private int y04 = (frameHeight/9)*7;
 	
 	private DefaultListModel df;
 	private JList pathList;
 	private JScrollPane jListScroll;
 	
+	private JButton upButton;
+	private JButton downButton;
 	private JButton msgButton;
 	private JButton addButton;
 	private JButton delButton;
@@ -46,12 +56,14 @@ public class WindowFrame extends JFrame{
 	public WindowFrame(){
 		super ("ToWebp : "+System.getProperty("os.name"));	//메인 프레임
 				
-		ButtonHandler buttonH = new ButtonHandler();
+		ButtonListener buttonL = new ButtonListener();
 		
 		df = new DefaultListModel();
 		pathList = new JList(df);
 		jListScroll = new JScrollPane(pathList);
 		
+		upButton = new JButton("UP");
+		downButton = new JButton("DOWN");
 		msgButton = new JButton("메세지창");
 		addButton = new JButton("추가");
 		delButton = new JButton("삭제");
@@ -60,6 +72,16 @@ public class WindowFrame extends JFrame{
 		savePathLabel = new JLabel("저장위치", SwingConstants.CENTER);
 		savePathField = new JTextField();
 		
+		upButton.addActionListener(buttonL);
+		downButton.addActionListener(buttonL);
+		msgButton.addActionListener(buttonL);
+		addButton.addActionListener(buttonL);
+		delButton.addActionListener(buttonL);
+		delAllButton.addActionListener(buttonL);
+		runButton.addActionListener(buttonL);
+		
+		upButton.setActionCommand("itemUp");
+		downButton.setActionCommand("itemDown");
 		msgButton.setActionCommand("msg");;
 		addButton.setActionCommand("oPath");
 		delButton.setActionCommand("del");
@@ -67,6 +89,8 @@ public class WindowFrame extends JFrame{
 		runButton.setActionCommand("run");
 		
 		jListScroll.setSize(frameWidth-(x01*2),(frameHeight/8)*4);
+		upButton.setSize(buttonWidth, buttonHeight);
+		downButton.setSize(buttonWidth, buttonHeight);
 		msgButton.setSize(buttonWidth, buttonHeight);
 		addButton.setSize(buttonWidth,buttonHeight);
 		delButton.setSize(buttonWidth,buttonHeight);
@@ -76,21 +100,17 @@ public class WindowFrame extends JFrame{
 		savePathField.setSize((frameWidth/10)*8,buttonHeight);
 		
 		jListScroll.setLocation(x01, y01);
-		msgButton.setLocation(x04, y02);
-		addButton.setLocation(x01, y02);
-		delButton.setLocation(x02, y02);
-		delAllButton.setLocation(x03, y02);
-		runButton.setLocation(x05, y02);
-		savePathLabel.setLocation(x01, y03);
-		savePathField.setLocation(x02,y03);
+		upButton.setLocation(x01, y02);
+		downButton.setLocation(x02, y02);
+		msgButton.setLocation(x04, y03);
+		addButton.setLocation(x01, y03);
+		delButton.setLocation(x02, y03);
+		delAllButton.setLocation(x03, y03);
+		runButton.setLocation(x05, y03);
+		savePathLabel.setLocation(x01, y04);
+		savePathField.setLocation(x02,y04);
 		
 		savePathField.setEditable(false);
-		
-		msgButton.addActionListener(buttonH);
-		addButton.addActionListener(buttonH);
-		delButton.addActionListener(buttonH);
-		delAllButton.addActionListener(buttonH);
-		runButton.addActionListener(buttonH);
 		
 		//모니터 해상도를 구한다.
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -102,9 +122,11 @@ public class WindowFrame extends JFrame{
 		setResizable(false);
 		setLocation((screenSize.width/2)-(frameWidth/2),(screenSize.height/2)-(frameHeight/2));
 		
-		addWindowListener(new WindowHandler());
+		addWindowListener(new WListener());
 		
 		add(jListScroll);
+		add(upButton);
+		add(downButton);
 		add(msgButton);
 		add(addButton);
 		add(delButton);

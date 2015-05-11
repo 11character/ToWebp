@@ -1,11 +1,11 @@
-package handler;
+package listener;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import service.RunMacThread;
 
-public class WindowHandler implements WindowListener {
+public class WListener implements WindowListener {
 
 	@Override
 	public void windowOpened(WindowEvent e) {

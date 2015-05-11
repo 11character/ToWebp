@@ -2,8 +2,6 @@ package service;
 
 import javax.swing.JTextArea;
 
-import Frame.MessageFrame;
-
 public class RunMessageThread implements Runnable{
 	private String message = null;
 	private Boolean writeSwitch = false;

@@ -2,7 +2,6 @@ package service;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.DefaultListModel;
@@ -10,17 +9,20 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-import Frame.WindowFrame;
-
-
+/**
+ * 이미지를 webp 포멧으로 변환
+ * @FileName  : RunCwebp.java
+ * @Project     : ToWebp
+ * @Date         : 2015. 5. 11.
+ * @author      : 이은표
+ */
 public class RunCwebp implements Runnable{
 	private JFrame mainFrame;						//메인창
 	private RunMessageThread message;				
 	private Thread msgThread;						//메세지처리 쓰레드
 	
-	private JList pathList;					//JList 객체
-	private DefaultListModel pathListModel; //JList Model
+	private JList pathList;							//JList 객체
+	private DefaultListModel pathListModel; 		//JList Model
 	private JTextField savePathField;				//저장경로가 들어가는 JTextField객체
 	
 	private File thisPath;							//실행위치

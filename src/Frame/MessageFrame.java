@@ -7,6 +7,8 @@ import javax.swing.JTextArea;
 import service.RunMacThread;
 
 public class MessageFrame extends JFrame{
+	private static final long serialVersionUID = 1L;
+	
 	private int frameWidth = RunMacThread.mainFrame.getWidth();
 	private int frameHeight = 300;
 	private int mainX = RunMacThread.mainFrame.getLocation().x;

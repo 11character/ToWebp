@@ -10,14 +10,19 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
+/**
+ * 리스트, 리스트항목 관련 기능
+ * @FileName  : PathListControll.java
+ * @Project     : ToWebp
+ * @Date         : 2015. 5. 11.
+ * @author      : 이은표
+ */
 public class PathListControll {
 	private Frame mainFrame = RunMacThread.mainFrame;														
 	private JList pathList = RunMacThread.mainFrame.getPathList();									//JList 객체를 받는다.
 	private DefaultListModel pathListModel = (DefaultListModel) pathList.getModel();	//listModel을 받는다.
 	private JTextField savePathField = RunMacThread.mainFrame.getSavePathField(); 						//savePathField를 받는다.
 	private static String lastOpenDirectoryPath = System.getProperty("user.home");								//파일추가 기본경로
-	private static String lastSaveDirectoryPath = System.getProperty("user.home");								//파일추가 기본경로
 	
 	/**
 	 * 대상 경로를 추가하고 창에 표시되는 목록을 새로고침 한다.
@@ -110,5 +115,41 @@ public class PathListControll {
 		savePathField.setText("");
 		
 		System.out.println("delAll : end");
-	}	
+	}
+	
+	/**
+	 * 선택 항목을 위로 올린다.
+	 * @Method Name  : itemUp
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 */
+	public void itemUp(){
+		if(pathList.getSelectedIndex() > 0){
+			int selectedIndex = pathList.getSelectedIndex();
+			String tempValue = (String) pathListModel.get(selectedIndex-1);
+			pathListModel.set(selectedIndex-1,pathListModel.get(selectedIndex));
+			pathListModel.set(selectedIndex, tempValue);
+			pathList.setSelectedIndex(selectedIndex-1);
+		}
+		
+		System.out.println("itemUp : end");
+	}
+	
+	/**
+	 * 선택 항목을 아래로 내린다.
+	 * @Method Name  : itemDown
+	 * @date   : 2015. 5. 11.
+	 * @author   : 이은표
+	 */
+	public void itemDown(){
+		if(pathList.getSelectedIndex() < pathListModel.size()){
+			int selectedIndex = pathList.getSelectedIndex();
+			String tempValue = (String) pathListModel.get(selectedIndex+1);
+			pathListModel.set(selectedIndex+1, pathListModel.get(selectedIndex));
+			pathListModel.set(selectedIndex, tempValue);
+			pathList.setSelectedIndex(selectedIndex+1);
+		}
+		
+		System.out.println("itemDown : end");
+	}
 }
