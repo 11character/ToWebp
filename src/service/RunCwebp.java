@@ -36,7 +36,10 @@ public class RunCwebp implements Runnable{
 		pathListModel = (DefaultListModel) pathList.getModel();
 		
 		rootPath = RunMacThread.rootPath;
-		utilityPathFile = new File(rootPath+File.separator+"webp_utility"+File.separator+"cwebp");
+		utilityPathFile = new File(rootPath
+									+File.separator+"PlugIns"
+									+File.separator+"webp_utility"
+									+File.separator+"cwebp");
 				
 		savePathFileField = RunMacThread.mainFrame.getSavePathField();
 		savePathFile = new File(savePathFileField.getText());

@@ -41,7 +41,7 @@ public class ButtonListener implements ActionListener {
 			JTextField frameSpeedField = mainFrame.getFrameSpeedField();
 			if(!isNumber(frameSpeedField.getText())){
 				System.out.println("ButtonListener : 정수가 아닌 수가 입력되었다.");
-				JOptionPane.showMessageDialog(mainFrame,"속도는 정수를 입력해야 합니다.","",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(mainFrame,"프레임속도는 정수를 입력해야 합니다.","",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			
@@ -64,7 +64,7 @@ public class ButtonListener implements ActionListener {
 	 */
 	private boolean isNumber(String nStr){
 		boolean result = false;
-		Pattern p = Pattern.compile("^[0-9].$");
+		Pattern p = Pattern.compile("^[0-9]*$");
 		Matcher m = p.matcher(nStr.trim());
 		if(m.matches()){
 			result = true;				

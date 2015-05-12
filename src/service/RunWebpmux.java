@@ -43,7 +43,10 @@ public class RunWebpmux implements Runnable{
 		pathListModel = (DefaultListModel) pathList.getModel();
 		
 		rootPath = RunMacThread.rootPath;
-		utilityPathFile = new File(rootPath+File.separator+"webp_utility"+File.separator+"webpmux");
+		utilityPathFile = new File(rootPath
+									+File.separator+"PlugIns"
+									+File.separator+"webp_utility"
+									+File.separator+"webpmux");
 		
 		savePathFile = new File(savePathField.getText());
 		

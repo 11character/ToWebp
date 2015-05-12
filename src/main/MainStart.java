@@ -11,6 +11,7 @@ public class MainStart {
 	
 	//기본값 설정 및 Thread 실행
 	public static void main(String[] args) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		
 		//***해당 실행파일의 인코딩 설정을 변경해주는 코드.
 		System.setProperty("file.encoding","UTF-8"); 
 		Field charset = Charset.class.getDeclaredField("defaultCharset"); 
