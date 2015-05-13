@@ -21,8 +21,8 @@ public class RunCwebp implements Runnable{
 	private RunMessageThread message;				
 	private Thread msgThread;						//메세지처리 쓰레드
 	
-	private JList pathList;							//JList 객체
-	private DefaultListModel pathListModel; 		//JList Model
+	private JList<String> pathList;							//JList 객체
+	private DefaultListModel<String> pathListModel; 		//JList Model
 	private JTextField savePathFileField;				//저장경로가 들어가는 JTextField객체
 	
 	private String rootPath;							//실행위치
@@ -33,7 +33,7 @@ public class RunCwebp implements Runnable{
 		mainFrame = RunMacThread.mainFrame;
 		pathList = RunMacThread.mainFrame.getPathList();
 		
-		pathListModel = (DefaultListModel) pathList.getModel();
+		pathListModel = (DefaultListModel<String>) pathList.getModel();
 		
 		rootPath = RunMacThread.rootPath;
 		utilityPathFile = new File(rootPath

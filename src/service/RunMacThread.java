@@ -17,7 +17,7 @@ public class RunMacThread implements Runnable {
 	public static String rootPath;				//현재위치
 
 	public void run(){
-		System.out.println("Thread : start");
+		System.out.println("RunMacThread : start");
 		try {
 			rootPath = getRootPath(); //기준이 되는 루트 경로를 구한다.
 			//생성도구 위치와 존재여부 체크

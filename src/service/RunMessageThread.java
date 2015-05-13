@@ -20,7 +20,7 @@ public class RunMessageThread implements Runnable{
 				Thread.yield();
 			}
 		}
-		System.out.println("메세지 쓰레드 종료");
+		System.out.println("RunMessageThread : stop");
 	}
 	
 	public void setMessage(String msg){

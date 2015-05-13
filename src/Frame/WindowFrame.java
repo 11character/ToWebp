@@ -39,8 +39,8 @@ public class WindowFrame extends JFrame{
 	private int y03 = (frameHeight/9)*6;
 	private int y04 = (frameHeight/9)*7;
 	
-	private DefaultListModel df;
-	private JList pathList;
+	private DefaultListModel<String> df;
+	private JList<String> pathList;
 	private JScrollPane jListScroll;
 	
 	private JButton upButton;
@@ -60,8 +60,8 @@ public class WindowFrame extends JFrame{
 				
 		ButtonListener buttonL = new ButtonListener();
 		
-		df = new DefaultListModel();
-		pathList = new JList(df);
+		df = new DefaultListModel<String>();
+		pathList = new JList<String>(df);
 		jListScroll = new JScrollPane(pathList);
 		
 		upButton = new JButton("UP");
@@ -148,7 +148,7 @@ public class WindowFrame extends JFrame{
 		setVisible(true);
 		
 		addButton.requestFocus();// 추가버튼에 포커스
-		frameSpeed.setText("60");//기본 속도 60
+		frameSpeed.setText("120");//기본 속도 120
 		
 		System.out.println("JFrame(main) : on");
 	}
@@ -160,7 +160,7 @@ public class WindowFrame extends JFrame{
 	 * @author   : 이은표
 	 * @return
 	 */
-	public JList getPathList(){
+	public JList<String> getPathList(){
 		return pathList;
 	}
 	

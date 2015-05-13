@@ -42,6 +42,7 @@ public class ButtonListener implements ActionListener {
 			if(!isNumber(frameSpeedField.getText())){
 				System.out.println("ButtonListener : 정수가 아닌 수가 입력되었다.");
 				JOptionPane.showMessageDialog(mainFrame,"프레임속도는 정수를 입력해야 합니다.","",JOptionPane.ERROR_MESSAGE);
+				frameSpeedField.setText("120");
 				return;
 			}
 			
