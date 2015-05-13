@@ -2,6 +2,7 @@ package service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.swing.JOptionPane;
 
@@ -47,6 +48,7 @@ public class RunMacThread implements Runnable {
 			rootPath = classPathFile.getCanonicalPath();
 			int lastIndex = rootPath.lastIndexOf("/");
 			rootPath = rootPath.substring(0,rootPath.lastIndexOf("/", lastIndex-1));
+			rootPath = URLDecoder.decode(rootPath,"UTF-8");//url 한글경로가 깨지는 문제 처리
 		} catch (IOException e) {
 			e.printStackTrace();
 			rootPath = System.getProperty("user.dir");
