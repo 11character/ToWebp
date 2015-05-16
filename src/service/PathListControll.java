@@ -146,7 +146,7 @@ public class PathListControll {
 	 * @author   : 이은표
 	 */
 	public void itemDown(){
-		if(pathList.getSelectedIndex() < pathListModel.size()){
+		if(pathList.getSelectedIndex() < pathListModel.size()-1){
 			int selectedIndex = pathList.getSelectedIndex();
 			String tempValue = (String) pathListModel.get(selectedIndex+1);
 			pathListModel.set(selectedIndex+1, pathListModel.get(selectedIndex));

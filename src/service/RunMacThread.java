@@ -23,7 +23,7 @@ public class RunMacThread implements Runnable {
 			rootPath = getRootPath(); //기준이 되는 루트 경로를 구한다.
 			//생성도구 위치와 존재여부 체크
 			File webpUtility = new File(rootPath
-										+File.separator+"PlugIns"
+										+File.separator+"Plugins"
 										+File.separator+"webp_utility");
 			if(webpUtility.exists()){
 				System.out.println("webp_utility path : "+webpUtility.getCanonicalPath());
@@ -33,9 +33,9 @@ public class RunMacThread implements Runnable {
 				messageFrame = new MessageFrame();//메세지창
 			}else{
 				System.out.println("error : webp_utility 디렉토리가 존재하지 않습니다.");
-				JOptionPane.showMessageDialog(mainFrame,"webp_utility 디렉토리가 존재하지 않습니다.\n"
+				JOptionPane.showMessageDialog(mainFrame,"/Plugins/webp_utility 디렉토리가 존재하지 않습니다.\n"
 														+rootPath
-														+"\n위치에 webp_utility 이름의 디렉토리가 있어야 하며, 생성유틸이 있어야 합니다.");
+														+"\n위치에 /Plugins/webp_utility 디렉토리가 있어야 하며, 생성유틸이 들어있어야 합니다.");
 				System.exit(0);
 			}
 		} catch (Exception e) {}
@@ -53,7 +53,7 @@ public class RunMacThread implements Runnable {
 			e.printStackTrace();
 			rootPath = System.getProperty("user.dir");
 			JOptionPane.showMessageDialog(mainFrame,"프로그램 경로를 가져오는 도중에 문제가 생겼습니다.\n"
-													+"패키지 내부의 Contents/Java/webp_utility 디렉토리리를\n"
+													+"패키지 내부의 Contents/Plugins/webp_utility 디렉토리리를\n"
 													+rootPath+"로 복사해 주세요.","",JOptionPane.ERROR_MESSAGE);
 		}
 		return rootPath;
