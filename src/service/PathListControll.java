@@ -61,16 +61,16 @@ public class PathListControll {
 			//파일선택, 중복파일 제거, 위치저장.
 			File[] files = fd.getFiles();
 			for(File tempFile : files){
-				int chack = 0;
+				int check = 0;
 				//기존에 같은 항목이 있는지 체크
 				for(int i=0; i<pathListModel.getSize(); i++){
 					String oldPath = (String) pathListModel.get(i);
 					if(oldPath.equals(tempFile.getCanonicalPath())){
-						chack += 1;
+						check += 1;
 						System.out.println("중복 : "+tempFile.getCanonicalPath());
 					}
 				}
-				if(chack==0){
+				if(check==0){
 					//저장 경로는 첫번째 파일의 경로 아래 webp 폴더에 생성
 					if(savePathField.getText().trim().length() == 0){
 						savePathField.setText(tempFile.getParent()+File.separator+"webp");
